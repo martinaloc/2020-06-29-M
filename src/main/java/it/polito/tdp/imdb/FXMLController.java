@@ -5,9 +5,12 @@
 package it.polito.tdp.imdb;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.imdb.model.Director;
 import it.polito.tdp.imdb.model.Model;
+import it.polito.tdp.imdb.model.Vicino;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,10 +38,10 @@ public class FXMLController {
     private Button btnCercaAffini; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxAnno"
-    private ComboBox<?> boxAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxRegista"
-    private ComboBox<?> boxRegista; // Value injected by FXMLLoader
+    private ComboBox<Director> boxRegista; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtAttoriCondivisi"
     private TextField txtAttoriCondivisi; // Value injected by FXMLLoader
@@ -48,11 +51,39 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+  
+    	if(this.boxAnno.getValue()==null)
+    	{
+    		this.txtResult.appendText("Selezionare un anno!\n");
+    		return;	
+    	}
+    	this.model.creaGrafo(this.boxAnno.getValue());
+    	this.txtResult.appendText("VERTEX: "+this.model.setV().size()+"\n");
+    	this.txtResult.appendText("EDGE: "+this.model.setE().size()+"\n");
+    	
+    	this.boxRegista.getItems().addAll(this.model.setV());
+    	
 
     }
 
     @FXML
     void doRegistiAdiacenti(ActionEvent event) {
+    	if(this.boxRegista.getValue()==null)
+    	{
+
+    		this.txtResult.appendText("Selezionare un regista!\n");
+    		return;		
+    	}
+    List<Vicino> list= 	this.model.registiAd(this.boxRegista.getValue());
+    if(list==null)
+    {
+    	this.txtResult.appendText("Errore lettura adiacenti!\n");
+		return;	
+    }
+    for(Vicino v : list)
+    {
+    	this.txtResult.appendText(v.toString()+"\n");
+    }
 
     }
 
@@ -76,6 +107,12 @@ public class FXMLController {
    public void setModel(Model model) {
     	
     	this.model = model;
+    	if(this.model.listYears()==null)
+    	{
+    		this.txtResult.appendText("Errore lettura years!\n");
+    		return;
+    	}
+    	this.boxAnno.getItems().addAll(this.model.listYears());
     	
     }
     
