@@ -19,17 +19,9 @@ public class Model {
 	private Map<Integer, Director> map;
 	private Graph<Director, DefaultWeightedEdge> graph;
 
-	
-	
-	
-	
 	public List<Integer> listYears(){
 		return this.dao.listYears();
 	}
-
-
-
-
 
 	public Model() {
 	
@@ -42,8 +34,7 @@ public class Model {
 	{
 		this.graph= new SimpleWeightedGraph<Director, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		
-		if(this.dao.listVertex(anno, map)==null)
-		{
+		if(this.dao.listVertex(anno, map)==null){
 			System.out.println("Errore lettura vertex");
 			return;
 		}
@@ -51,39 +42,29 @@ public class Model {
 		Graphs.addAllVertices(this.graph, this.dao.listVertex(anno, map));
 		
 		
-		if(this.dao.listAdiacenze(anno, map)==null)
-		{
+		if(this.dao.listAdiacenze(anno, map)==null){
 			System.out.println("Errore lettura edges");
 			return;
 		}
 		
-		for(Adiacenza a : this.dao.listAdiacenze(anno, map))
-		{
+		for(Adiacenza a : this.dao.listAdiacenze(anno, map)){
 			Graphs.addEdge(this.graph, a.getD1(), a.getD2(), a.getPeso());
 		}
 		
 	}
-	public List<Director> setV()
-	{
+	public List<Director> setV(){
 		List<Director> list = new  ArrayList<Director>(this.graph.vertexSet());
 		Collections.sort(list);
 		return list ;
-	}
-	
-	public Set<DefaultWeightedEdge> setE()
-	{
+	}	
+	public Set<DefaultWeightedEdge> setE(){
 		return this.graph.edgeSet();
 	}
-
-
-
-
-
+	
 	public List<Vicino> registiAd(Director value) {
 		List<Vicino> list = new ArrayList<>();
 		
-	for(Director a : Graphs.neighborListOf(this.graph, value))
-	{
+	for(Director a : Graphs.neighborListOf(this.graph, value)){
 		list.add(new Vicino(a, (int) this.graph.getEdgeWeight(this.graph.getEdge(a, value))));
 	}
 	Collections.sort(list);

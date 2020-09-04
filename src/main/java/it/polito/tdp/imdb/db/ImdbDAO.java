@@ -16,7 +16,7 @@ import it.polito.tdp.imdb.model.Movie;
 public class ImdbDAO {
 	
 	public List<Actor> listAllActors(){
-		String sql = "SELECT * FROM actors";
+		String sql = "SELECT * FROM actors ";
 		List<Actor> result = new ArrayList<Actor>();
 		Connection conn = DBConnect.getConnection();
 
@@ -40,7 +40,7 @@ public class ImdbDAO {
 	}
 	
 	public List<Movie> listAllMovies(){
-		String sql = "SELECT * FROM movies";
+		String sql = "SELECT * FROM movies ";
 		List<Movie> result = new ArrayList<Movie>();
 		Connection conn = DBConnect.getConnection();
 
@@ -65,7 +65,7 @@ public class ImdbDAO {
 	
 	
 	public void listAllDirectors(Map<Integer, Director> map){
-		String sql = "SELECT * FROM directors";
+		String sql = "SELECT * FROM directors ";
 		
 		Connection conn = DBConnect.getConnection();
 
@@ -179,3 +179,5 @@ public class ImdbDAO {
 	}
 	
 }
+
+
